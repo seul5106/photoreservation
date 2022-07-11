@@ -32,7 +32,7 @@ import image15 from "../../assets/img/galleryImg/15.png"
 SwiperCore.use([Autoplay, Pagination, EffectCoverflow])
 
 const Gallery = () => {
-
+    
     return (
         <div className="galleryContainer">
             <video
@@ -42,8 +42,6 @@ const Gallery = () => {
                 
                 loop={true}
                 controls={false}
-            // ref={ref}
-            // style={{ width: '100%' }}
             >
                 <source src={videoSrc}></source>
             </video>

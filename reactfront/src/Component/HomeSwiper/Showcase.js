@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useMemo} from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay, Pagination, EffectFade } from "swiper";

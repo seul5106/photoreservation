@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Cookies, useCookies } from 'react-cookie'
+import { useNavigate } from 'react-router-dom';
+
 import Modal from './Modal';
 import Login from "../Users/Login"
 import { getTokenIsOK } from '../../Slices/ReadTokenSlice'
 
-import { Cookies, useCookies } from 'react-cookie'
-
-
-
 const cookies = new Cookies();
 
+
 const ModalFregment = () => {
+  const usenavigate = useNavigate();
+  
   // useState를 사용하여 open상태를 변경한다. (open일때 true로 만들어 열리는 방식)
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -49,7 +51,7 @@ const ModalFregment = () => {
   const Logout = () => {
     removeCookie("jwtToken", { path: '/' })
     setShow(true)
-    window.location.href = "/";		// 현재url을 변경해준다.
+    usenavigate("/")		// 현재url을 변경해준다.
   }
 
   if (show === true) {

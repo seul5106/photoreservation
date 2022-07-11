@@ -42,7 +42,7 @@ const Signin = () => {
         (async () => {
             try {
                 SigninButton();
-                await axios.post('http://192.168.55.95:5000/members/signin',
+                await axios.post(process.env.REACT_APP_LOCALHOST +'/members/signin',
                     {
                         member_id: info.USER_ID,
                         member_email: info.USER_EMAIL,

@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 50
+    },
+    "auditLog": "C:\\Users\\ezen\\photoreservation\\nodeserver\\_files\\_logs\\.cf93210da57c57bf2d666a3bd9527ac8f8058a1e-audit.json",
+    "files": [
+        {
+            "date": 1657519056256,
+            "name": "C:\\Users\\ezen\\photoreservation\\nodeserver\\_files\\_logs\\log_220711.log",
+            "hash": "c71fc1f00e7a73d1269269bcda094a05ff3e0eaefd0ceaf3e82ca2be52af7bc2"
+        }
+    ],
+    "hashType": "sha256"
+}

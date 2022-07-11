@@ -49,7 +49,7 @@ const Login = (props) => {
         //로그인   
         (async () => {
             try {
-                const response = await axios.post('http://192.168.55.95:5000/members/login',
+                const response = await axios.post(process.env.REACT_APP_LOCALHOST + "/members/login",
                     {
                         member_id: account.id,
                         member_pw: account.pwd

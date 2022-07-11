@@ -7,7 +7,7 @@
 // export default function ReadToken() {
 //   (async () => {
 //     try {
-//       await axios.post("http://192.168.55.95:5000/readToken");
+//       await axios.post(process.env.REACT_APP_LOCALHOST + "/readToken");
 //       console.log("토큰비교성공!!")
 //     } catch (error) {
 //       if (error.response.status === 419) {

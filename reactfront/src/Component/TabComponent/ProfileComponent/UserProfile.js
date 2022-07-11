@@ -12,7 +12,7 @@ const UserProfile = () => {
 
     useEffect(() => {
         (async () => {
-            await axios.post('http://192.168.55.95:5000/members/get').then(response => {
+            await axios.post(process.env.REACT_APP_LOCALHOST +'/members/get').then(response => {
                 setData(response.data)
 
             }).catch(error => {

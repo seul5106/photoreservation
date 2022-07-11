@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit' 
 import axios from 'axios';
+import {Cookies} from "react-cookie"
 
-
+const cookies = new Cookies();
 
 /** 비동기 처리 함수 구현 */
 // payload는 이 함수를 호출할 때 전달되는 파라미터. 
@@ -10,16 +11,17 @@ export const getTokenIsOK = createAsyncThunk("GET_LIST", async (payload, { rejec
     let result = null;
 
     try {
-        const apiUrl = "http://192.168.55.95:5000/readToken"
-
+        const apiUrl =  process.env.REACT_APP_LOCALHOST + "/readToken"
         result = await axios.post(apiUrl)
-
         if(result.data.faultInfo !== undefined) {
             const err = new Error();
             err.response = {status: 500, statusText: result.data.faultInfo.message};
             throw err;
         }
     } catch (err) {
+        if(err.response.status === 401 || err.response.status === 419){
+            cookies.remove("jwtToken")
+        }
         // 에러 발생시 `rejectWithValue()`함수에 에러 데이터를 전달하면 extraReducer의 rejected 함수가 호출된다.          
         result = rejectWithValue(err.response);
     }

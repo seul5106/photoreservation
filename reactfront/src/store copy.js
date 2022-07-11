@@ -13,12 +13,10 @@ import { SetTapItemSlice } from './Slices/SetTapItemSlice'
 
 const logger = createLogger();
 
-//https://velog.io/@hongdol/redux-toolkit%EC%A0%81%EC%9A%A9%EA%B3%BC-persist-%EC%A0%81%EC%9A%A9
 const persistConfig = {
     key: 'root',
-    version: 1,
     storage,
-  };
+}
 
 const rootReducer = combineReducers({
     SignInData: SignInDataSlice.reducer,

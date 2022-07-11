@@ -1,16 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from "react-redux";
+import { Cookies } from 'react-cookie';
+
+import { getTokenIsOK } from '../../Slices/ReadTokenSlice'
+import { setTabShow } from '../../Slices/TabShowSlice'
+import { SetTapItemValue } from '../../Slices/SetTapItemSlice'
 
 import LoginModule from "../Modal/ModalFregment"
 import img from "../../assets/img/pngwing.com.png"
 
-
+const cookies = new Cookies();
 
 const Hamberger = () => {
+    const dispatch = useDispatch();
     const [contentshow, setContentshow] = useState(0);
-    const [show, setShow] = useState(true);
-    const [active, setActive] = useState({ menu: 0 });
     const [scrollPosition, setScrollPosition] = useState(0);
+
+    const { TAB_SHOW } = useSelector((state) => state.TabShowData);
+    const { rt } = useSelector((state) => state.ReadToken);
+    const { setTabItem } = useSelector((state) => state.SetTapItemV);
 
     //페이지 스크롤의 위치에 따라 상태값을 저장
     const updateScroll = () => {
@@ -20,47 +29,39 @@ const Hamberger = () => {
         window.addEventListener('scroll', updateScroll);
     });
 
-    const ifAbout = (state) => {
-        if (state.menu === 0 && scrollPosition < 53) {
+    const ifAbout = (setTabItem) => {
+        if (setTabItem === 0 && scrollPosition < 53) {
             return "original_hamberger"
-        } else if (state.menu === 0 && scrollPosition >= 53) {
+        } else if (setTabItem === 0 && scrollPosition >= 53) {
             return "change_hamberger"
-        } else if (state.menu === 1) {
+        } else if (setTabItem === 1) {
             return "original_hamberger"
-        } else if (state.menu === 2) {
+        } else if (setTabItem === 2) {
             return "original_hamberger"
-        } else if (state.menu === 3) {
+        } else if (setTabItem === 3) {
             return "original_hamberger"
         }
     }
 
-    const getCookie = (name) => {
-        // 쿠키 값을 가져옵니다.
-        let value = "; " + document.cookie;
-        // 키 값을 기준으로 파싱합니다.
-        let parts = value.split("; " + name + "=");
-        // value를 return!
-        if (parts.length === 2) {
-            return parts.pop().split(";").shift();
-        }
-    }; 
-
     useEffect(() => {
-        if (getCookie("jwtToken") !== undefined) {
-            setShow(false);
+        if (rt === 401 || rt === 419) {
+            dispatch(setTabShow(false))
+            dispatch(SetTapItemValue(0))
+        } else {
+            dispatch(setTabShow(true))
         }
-    }, [])
+        
+        if(cookies.get("jwtToken")) {
+            dispatch(getTokenIsOK())
+        }
+    }, [dispatch, rt])
 
     const clickhamberger = (props) => {
         if(props === 0){setContentshow(true)}
         else if(props === 1){setContentshow(false)}
     }
 
-    const changeMenu = (menuIndex) => {
-        setActive(
-            {menu: menuIndex}
-        )
-    }
+    
 
     //block_hamberger의 공간 클릭 시 햄버거버튼 닫힘
     const click_block_hamberger = ()=>{
@@ -68,16 +69,16 @@ const Hamberger = () => {
     }
 
     return (
-        <div className={ifAbout(active)}>
+        <div className={ifAbout(setTabItem)}>
             <div className="show_hamberger">
                 <img src={img} alt="햄버거 버튼" onClick={()=>clickhamberger(0)} />
             </div>
             <div className={contentshow === true ? "show_hambergerTabs" : "disable_hambergerTabs"}>
                 <img src={img} alt="햄버거 버튼" onClick={()=>clickhamberger(1)} />
-                <Link to="/" className={`${active.menu === 0 ? 'active' : ''}`} onClick={() => changeMenu(0)}>YSL STUDIO</Link>
-                <Link to="/About" className={`${active.menu === 1 ? 'active' : ''}`} onClick={() => changeMenu(1)}>Location</Link>
-                <Link to="/Gallery" className={`${active.menu === 2 ? 'active' : ''}`} onClick={() => changeMenu(2)}>Gallery</Link>
-                {show === true ? <></> : <Link to="/Profile" className={`${active.menu === 3 ? 'active' : ''}`}  onClick={() => changeMenu(3)}>Profile</Link>}
+                <Link to="/" className={`${setTabItem === 0 ? 'active' : ''}`} onClick={() => dispatch(SetTapItemValue(0))}>YSL STUDIO</Link>
+                <Link to="/About" className={`${setTabItem === 1 ? 'active' : ''}`} onClick={() => dispatch(SetTapItemValue(1))}>Location</Link>
+                <Link to="/Gallery" className={`${setTabItem === 2 ? 'active' : ''}`} onClick={() => dispatch(SetTapItemValue(2))}>Gallery</Link>
+                {TAB_SHOW === false ? <></> : <Link to="/Profile" className={`${setTabItem.menu === 3 ? 'active' : ''}`}  onClick={() => dispatch(SetTapItemValue(3))}>Profile</Link>}
                 <LoginModule/>
             </div>
             <div onClick={click_block_hamberger} className={contentshow === true ? "block_hamberger" : ""}>

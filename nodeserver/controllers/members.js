@@ -131,7 +131,7 @@ module.exports = (app) => {
                 type: 'JWT',
                 memberId: memberId,
             }, secret, {
-                expiresIn: '30s', // 만료시간 15분
+                expiresIn: '15m', // 만료시간 15분
                 issuer: '토큰발급자',
             });
             res.sendJson({ code: 200, message: "토큰이 발급되었습니다.", token: token });

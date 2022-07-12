@@ -78,7 +78,7 @@ const Hamberger = () => {
                 <Link to="/" className={`${setTabItem === 0 ? 'active' : ''}`} onClick={() => dispatch(SetTapItemValue(0))}>YSL STUDIO</Link>
                 <Link to="/About" className={`${setTabItem === 1 ? 'active' : ''}`} onClick={() => dispatch(SetTapItemValue(1))}>Location</Link>
                 <Link to="/Gallery" className={`${setTabItem === 2 ? 'active' : ''}`} onClick={() => dispatch(SetTapItemValue(2))}>Gallery</Link>
-                {TAB_SHOW === false ? <></> : <Link to="/Profile" className={`${setTabItem.menu === 3 ? 'active' : ''}`}  onClick={() => dispatch(SetTapItemValue(3))}>Profile</Link>}
+                {TAB_SHOW === false ? <></> : <Link to="/Profile" className={`${setTabItem === 3 ? 'active' : ''}`}  onClick={() => dispatch(SetTapItemValue(3))}>Profile</Link>}
                 <LoginModule/>
             </div>
             <div onClick={click_block_hamberger} className={contentshow === true ? "block_hamberger" : ""}>

@@ -14,10 +14,9 @@ const Home = () => {
 
   const { rt } = useSelector((state) => state.ReadToken);
   const dispatch = useDispatch();
-
+  
   useEffect(() => {
     dispatch(getTokenIsOK());
-
   }, [dispatch, rt])
 
   

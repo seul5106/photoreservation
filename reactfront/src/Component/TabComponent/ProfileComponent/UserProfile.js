@@ -5,12 +5,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 
 import UserProfileResevation from './UserProfileResevation';
+import { Cookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 
 
 const UserProfile = () => {
     const [data, setData] = useState();
-
+    const cookies = new Cookies();
+    const usenavigate = useNavigate();
     useEffect(() => {
+        if(cookies.get("jwtToken") === undefined){
+            usenavigate("/")
+        }
         (async () => {
             await axios.post(process.env.REACT_APP_LOCALHOST +'/members/get').then(response => {
                 setData(response.data)
@@ -27,6 +33,7 @@ const UserProfile = () => {
         return (
             <div className="UserProfileContainer">
                 <div className="UserProfileContainerItem">
+                    <p>회원 프로필</p>
                     <Table striped bordered hover variant="dark">
                         <thead>
                             <tr>
@@ -71,7 +78,7 @@ const UserProfile = () => {
                     {/* 아래에 예약내역 추가하기 */}
                     {data.reserve.length !== 0 ?
                         <UserProfileResevation />
-                        : <></>}
+                        : <p>예약은 홈페이지에서 Do Reservation을 클릭 해주세요!!</p>}
                 </div>
             </div>
         );

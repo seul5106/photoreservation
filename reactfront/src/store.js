@@ -1,7 +1,7 @@
 import { configureStore, combineReducers, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { createLogger } from 'redux-logger';
 
-import storage from 'redux-persist/lib/storage';
+import storage from 'redux-persist/lib/storage/session';
 import { persistReducer, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
 
@@ -18,6 +18,7 @@ const persistConfig = {
     key: 'root',
     version: 1,
     storage,
+    blacklist: ["SignInData","SignInPostCode"]
   };
 
 const rootReducer = combineReducers({

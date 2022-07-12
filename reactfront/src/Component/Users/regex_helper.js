@@ -17,9 +17,7 @@ class RegexHelper {
      * @param {boolean} 입력된 경우 true / 입력되지 않은 경우 false
      */
     value(selector, msg) {
-        
         const field = document.querySelector(selector);
-        
         const content = field.value.trim();
         if (!content) {
             Swal.fire({
@@ -36,25 +34,6 @@ class RegexHelper {
         }
         return true;
     }
-
-    // minusSign(selector, msg){
-    //     const field = document.querySelector(selector);
-    //     const content = field.value.trim();
-    //     if(content.indexOf("-") !== -1){
-    //         console.log(123)
-    //         Swal.fire({
-    //             customClass: {
-    //                 container: 'my-swal'
-    //             },
-    //             text: msg,
-    //             icon: 'error',
-    //             confirmButtonText: '확인'
-    //         });
-    //         field.focus();
-    //         return false;
-    //     }
-    //     return true;
-    // }
 
     /**
      * 입력값이 지정된 글자수를 초과했는지 검사한다.
@@ -317,6 +296,28 @@ class RegexHelper {
             });
             field.value = "";
             field.focus();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 선택한 날짜가 이전 날짜인지를 검사한다.
+     * @param {int} nowDate 지금날짜
+     * @param {int} selectDate  선택한 날짜
+     * @param {string} msg  이전날짜면 표시할 메시지 내용
+     */
+     isSameDate(nowDate, selectDate ,msg) {
+        
+        if (nowDate > selectDate) {
+            Swal.fire({
+                customClass: {
+                    container: 'my-swal'
+                },
+                text: msg,
+                icon: 'error',
+                confirmButtonText: '확인'
+            })
             return false;
         }
         return true;

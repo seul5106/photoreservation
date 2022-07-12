@@ -45,7 +45,7 @@ const Tab = () => {
         if (cookies.get("jwtToken")) {
             dispatch(getTokenIsOK())
         }
-    }, [dispatch, rt])
+    }, [dispatch, rt, TAB_SHOW])
 
 
     // 첫번째 탭만 css를 적용하기 위한 함수

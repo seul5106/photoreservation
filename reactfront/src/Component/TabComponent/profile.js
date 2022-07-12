@@ -5,6 +5,7 @@ import axios from 'axios';
 import AdminComponent from "./ProfileComponent/AdminComponent"
 import UserProfile from "./ProfileComponent/UserProfile"
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 
 
@@ -24,7 +25,14 @@ const Profile = () => {
                 }
             } catch (error) {
                 if(error.response.status===419 || error.response.status===401){
-                    usenavigate("/")
+                    Swal.fire({
+                        customClass: {
+                            container: 'my-swal'
+                        },
+                        text: error.response.data.rtmsg,
+                        icon: 'error',
+                        confirmButtonText: '확인'
+                    }).then((result) => { usenavigate("/") })
                 }
                 const errorMsg = "[" + error.response.status + "] " + error.response.statusText;
                 console.log(errorMsg);

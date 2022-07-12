@@ -21,12 +21,12 @@ const UserProfileResevation = () => {
             });
         })()
         
-    }, [data])
+    }, [])
 
 
     //예약취소 버튼
     const reserveCancle = (e) => {
-        console.log(e.target.id)
+        console.log(e)
         let longdate = e.target.value
         const reserve_date = longdate.substr(0, 10);
         const reserve_time = longdate.substr(10);
@@ -51,6 +51,15 @@ const UserProfileResevation = () => {
                         console.log(errorMsg);
                         return;
                     }
+                    (async () => {
+                        await axios.post(process.env.REACT_APP_LOCALHOST +'/members/get').then(response => {
+                            setData(response.data.reserve)
+                        }).catch(error => {
+                            // const errorMsg = "[" + error.response.status + "] " + error.response.statusText;
+                            console.log(error);
+                            return;
+                        });
+                    })()
                 })()
             }else{
                 
@@ -59,7 +68,7 @@ const UserProfileResevation = () => {
     }
 
     return (
-        <div>
+        <div className="userProfile-container">
             {(data !== undefined)&&(data.length !== 0) ?
                 <>
                     <p>예약내역</p>
@@ -74,12 +83,12 @@ const UserProfileResevation = () => {
                         </thead>
                         <tbody>
                             {data.map((item, index) => (
-                                <tr key={index}>
+                                <tr key={index} id={index}>
                                     <td>{item.reserve_date}</td>
                                     <td>{item.reserve_time}</td>
                                     <td>{item.reserve_headcount}</td>
-                                    <td>
-                                        <button id={index} value={item.reserve_date + item.reserve_time} onClick={reserveCancle}>예약취소</button>
+                                    <td className='canclebtnContainer'>
+                                        <button className='cancleReservationbtn' id={index} value={item.reserve_date + item.reserve_time} onClick={reserveCancle}>예약취소</button>
                                     </td>
                                 </tr>
                             ))}

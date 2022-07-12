@@ -18,7 +18,7 @@ import img4 from "../../assets/img/wallpaperbetter4.jpg"
 
 SwiperCore.use([Autoplay, Pagination, EffectFade])
 
-export default function Showcase() {
+const Showcase = ()=> {
 
     return (
         <>
@@ -49,3 +49,5 @@ export default function Showcase() {
         </>
     );
 }
+
+export default Showcase;

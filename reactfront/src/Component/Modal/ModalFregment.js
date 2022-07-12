@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Modal from './Modal';
 import Login from "../Users/Login"
 import { getTokenIsOK } from '../../Slices/ReadTokenSlice'
+import { setTabShow } from '../../Slices/TabShowSlice';
 
 const cookies = new Cookies();
 
@@ -17,9 +18,9 @@ const ModalFregment = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   // 로그아웃 버튼을 보여줄지 로그인 버튼을 보여줄지 결정하는 상태값
-  const [show, setShow] = useState(true);
 
-  const { rt, rtmsg, data, loading } = useSelector((state) => state.ReadToken);
+  const { rt } = useSelector((state) => state.ReadToken);
+  const { TAB_SHOW } = useSelector((state) => state.TabShowData)
   const dispatch = useDispatch();
 
   const openModal = () => {
@@ -39,22 +40,22 @@ const ModalFregment = () => {
 
     if (cookies.get("jwtToken") === undefined) {
       //토큰이 존재하지 않는다면 로그인버튼 보이게
-      setShow(true)
+      dispatch(setTabShow(false))
     } else if (cookies.get("jwtToken") !== undefined) {
       //토큰이 존재한다면 로그아웃버튼 보이게
-      setShow(false);
+      dispatch(setTabShow(false))
     }
-  }, [dispatch, rt])
+  }, [dispatch , rt])
 
 
 
   const Logout = () => {
     removeCookie("jwtToken", { path: '/' })
-    setShow(true)
+    dispatch(setTabShow(false))
     usenavigate("/")		// 현재url을 변경해준다.
   }
 
-  if (show === true) {
+  if (TAB_SHOW === false) {
     return (
       <React.Fragment>
         <button className={"loginButton"} onClick={openModal}>Login</button>
@@ -64,7 +65,7 @@ const ModalFregment = () => {
         </Modal>
       </React.Fragment>
     );
-  } else if (show === false) {
+  } else if (TAB_SHOW === true) {
     return (
       <React.Fragment>
         <button className={"loginButton"} onClick={Logout}>Logout</button>

@@ -15,8 +15,8 @@ import 'swiper/css/effect-fade';
 import image1 from "../../assets/img/galleryImg/1.png"
 import image2 from "../../assets/img/galleryImg/2.jpg"
 import image3 from "../../assets/img/galleryImg/3.jpg"
-import image4 from "../../assets/img/galleryImg/4.jpg"
-import image5 from "../../assets/img/galleryImg/5.jpg"
+// import image4 from "../../assets/img/galleryImg/4.jpg"
+// import image5 from "../../assets/img/galleryImg/5.jpg"
 import image6 from "../../assets/img/galleryImg/6.jpg"
 import image7 from "../../assets/img/galleryImg/7.jpg"
 import image8 from "../../assets/img/galleryImg/8.jpg"
@@ -74,12 +74,12 @@ const Gallery = () => {
                         <SwiperSlide>
                             <img src={image3} alt="전시용 이미지3" />
                         </SwiperSlide>
-                        <SwiperSlide>
+                        {/* <SwiperSlide>
                             <img src={image4} alt="전시용 이미지4" />
                         </SwiperSlide>
                         <SwiperSlide>
                             <img src={image5} alt="전시용 이미지4" />
-                        </SwiperSlide>
+                        </SwiperSlide> */}
                         <SwiperSlide>
                             <img src={image6} alt="전시용 이미지4" />
                         </SwiperSlide>

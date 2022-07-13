@@ -11,9 +11,10 @@ import { useNavigate } from 'react-router-dom';
 
 const UserProfile = () => {
     const [data, setData] = useState();
-    const cookies = new Cookies();
+    
     const usenavigate = useNavigate();
     useEffect(() => {
+        const cookies = new Cookies();
         if(cookies.get("jwtToken") === undefined){
             usenavigate("/")
         }
@@ -27,7 +28,7 @@ const UserProfile = () => {
                 return;
             });
         })()
-    }, [])
+    }, [usenavigate]);
 
     if (data !== undefined) {
         return (

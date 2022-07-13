@@ -2,23 +2,27 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Swal from "sweetalert2"
 
+import {useDispatch } from "react-redux";
+
 import LoginImage from "../../assets/img/LoginImage.png"
 
 import Modal from '../Modal/Modal';
 import Signin from './Signin';
 
-
+import { getTokenIsOK } from '../../Slices/ReadTokenSlice'
 // import setAuthorizationToken from './setAuthorizationToken';
 import {Cookies} from 'react-cookie'
 
 const cookies = new Cookies();
 
+
 const Login = (props) => {
+    const dispatch = useDispatch();
     
 
     // useState를 사용하여 open상태를 변경한다. (open일때 true로 만들어 열리는 방식)
     const [modalOpen, setModalOpen] = useState(false);
-
+    
     const openModal = () => {
         setModalOpen(true);
     };
@@ -55,12 +59,8 @@ const Login = (props) => {
                         member_pw: account.pwd
                     },{ withCredentials: true });
                 const token = response.data.token;
-
                 cookies.set("jwtToken", token)
-                // setAuthorizationToken(token);
-                
                 close()
-                window.location.href = "/";
             } catch (e) {
                 Swal.fire({
                     customClass: {
@@ -71,7 +71,7 @@ const Login = (props) => {
                     confirmButtonText: '확인'
                 })
             }
-        })()
+        })().then(() => {dispatch(getTokenIsOK())})
     }
 
     return (

@@ -7,12 +7,14 @@ const cookies = new Cookies();
 /** 비동기 처리 함수 구현 */
 // payload는 이 함수를 호출할 때 전달되는 파라미터. 
 export const getTokenIsOK = createAsyncThunk("GET_LIST", async (payload, { rejectWithValue }) => {
-    
     let result = null;
-
+    
+    const token = cookies.get("jwtToken")
     try {
         const apiUrl =  process.env.REACT_APP_LOCALHOST + "/readToken"
-        result = await axios.post(apiUrl)
+        result = await axios.post(apiUrl, {},{
+            headers: {authorization: token}
+        })
         if(result.data.faultInfo !== undefined) {
             const err = new Error();
             err.response = {status: 500, statusText: result.data.faultInfo.message};

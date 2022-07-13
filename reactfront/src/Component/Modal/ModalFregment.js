@@ -45,12 +45,13 @@ const ModalFregment = () => {
       //토큰이 존재한다면 로그아웃버튼 보이게
       dispatch(setTabShow(false))
     }
-  }, [dispatch , rt])
+  }, [dispatch , TAB_SHOW, rt])
 
 
 
   const Logout = () => {
     removeCookie("jwtToken", { path: '/' })
+    dispatch(getTokenIsOK())
     dispatch(setTabShow(false))
     usenavigate("/")		// 현재url을 변경해준다.
   }

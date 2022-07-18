@@ -36,27 +36,29 @@ const ModalFregment = () => {
   useEffect(() => {
     if (rt === 401 || rt === 419) {
       cookies.remove("jwtToken")
+      setTabShow(true)
     }
 
     if (cookies.get("jwtToken") === undefined) {
       //토큰이 존재하지 않는다면 로그인버튼 보이게
-      dispatch(setTabShow(false))
+      setTabShow(true)
     } else if (cookies.get("jwtToken") !== undefined) {
       //토큰이 존재한다면 로그아웃버튼 보이게
-      dispatch(setTabShow(false))
+      setTabShow(false)
     }
-  }, [dispatch , TAB_SHOW, rt])
+  }, [ TAB_SHOW, rt])
 
 
 
   const Logout = () => {
     removeCookie("jwtToken", { path: '/' })
     dispatch(getTokenIsOK())
-    dispatch(setTabShow(false))
+    dispatch(setTabShow(true))
+    console.log(TAB_SHOW)
     usenavigate("/")		// 현재url을 변경해준다.
   }
-
-  if (TAB_SHOW === false) {
+  
+  if (TAB_SHOW === true) {
     return (
       <React.Fragment>
         <button className={"loginButton"} onClick={openModal}>Login</button>
@@ -66,7 +68,7 @@ const ModalFregment = () => {
         </Modal>
       </React.Fragment>
     );
-  } else if (TAB_SHOW === true) {
+  } else if (TAB_SHOW === false) {
     return (
       <React.Fragment>
         <button className={"loginButton"} onClick={Logout}>Logout</button>

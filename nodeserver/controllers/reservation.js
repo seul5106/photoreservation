@@ -28,7 +28,9 @@ module.exports = (app) => {
         const reserve_headcount = req.post("reserve_headcount")
 
         let json = null;
-        
+
+
+
         try {
             dbcon = await mysql2.createConnection(config.database);
             await dbcon.connect();
@@ -44,13 +46,22 @@ module.exports = (app) => {
                 throw new BadRequestException("이미 예약되어있는 시간입니다.");
             }
 
+            var regex = /[^0-9]/g;
+            var getRegex = reserve_headcount.replace(regex, "");
+            logger.warn(reserve_headcount)
+            logger.warn(getRegex)
+            if (reserve_headcount != getRegex) {
+               throw new BadRequestException("인원에는 숫자만 입력해주세요!!")
+            }
+
+
             let sql = "INSERT INTO members_reserve (";
             sql += "reserve_date, reserve_time, reserve_cancel, reserve_headcount, reg_date, user_id ";
             sql += ") VALUE (";
             sql += "?,?,'N',?,now(),?);";
             let args = [reserve_date, reserve_time, reserve_headcount, memberId];
             await dbcon.query(sql, args);
-            
+
             let sql2 = "SELECT ";
             sql2 += "reserve_date, reserve_time, reserve_headcount ";
             sql2 += "FROM members_reserve WHERE reserve_date=?"
@@ -71,7 +82,7 @@ module.exports = (app) => {
         const reserve_date = req.get("date")
 
         let json = null;
-        
+
         try {
             dbcon = await mysql2.createConnection(config.database);
             await dbcon.connect();
@@ -100,14 +111,14 @@ module.exports = (app) => {
         const reserve_time = req.post("reserve_time")
 
         let json = null;
-        
+
         try {
             dbcon = await mysql2.createConnection(config.database);
             await dbcon.connect();
 
             let sql = "DELETE FROM members_reserve WHERE ";
             sql += "user_id = ? AND reserve_date = ? AND reserve_time = ?";
-            let args = [memberId , reserve_date, reserve_time];
+            let args = [memberId, reserve_date, reserve_time];
 
             const [result] = await dbcon.query(sql, args);
             json = result;

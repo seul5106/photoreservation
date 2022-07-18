@@ -36,10 +36,10 @@ const Tab = () => {
 
     useEffect(() => {
         if (rt === 401 || rt === 419) {
-            dispatch(setTabShow(false))
+            dispatch(setTabShow(true))
             dispatch(SetTapItemValue(0))
         } else {
-            dispatch(setTabShow(true))
+            dispatch(setTabShow(false))
         }
 
         if (cookies.get("jwtToken")) {
@@ -74,7 +74,7 @@ const Tab = () => {
                         <Link to="/" className={`${setTabItem === 0 ? 'active' : ''}`} onClick={() => dispatch(SetTapItemValue(0))}>YSL STUDIO</Link>
                         <Link to="/About" className={`${setTabItem === 1 ? 'active' : ''}`} onClick={() => dispatch(SetTapItemValue(1))}>Location</Link>
                         <Link to="/Gallery" className={`${setTabItem === 2 ? 'active' : ''}`} onClick={() => dispatch(SetTapItemValue(2))}>Gallery</Link>
-                        {TAB_SHOW === false ? <></> : <Link to="/Profile" className={`${setTabItem === 3 ? 'active' : ''}`} id="profile" onClick={() => dispatch(SetTapItemValue(3))}>Profile</Link>}
+                        {TAB_SHOW === false ? <Link to="/Profile" className={`${setTabItem === 3 ? 'active' : ''}`} id="profile" onClick={() => dispatch(SetTapItemValue(3))}>Profile</Link> : <></>}
                         <LoginModule />
                     </ul>
                 </div>
@@ -82,10 +82,10 @@ const Tab = () => {
             </section>
             <div className="contentArea">
                 <Routes>
-                    <Route path="/" e element={<Home />} exact={true} />
+                    <Route path="/" element={<Home />} exact={true} />
                     <Route path="/About" element={<About />} />
                     <Route path="/Gallery" element={<Gallery />} />
-                    <Route path="/Profile" element={<Profile />} />
+                    <Route path="/Profile/*" element={<Profile />} />
                     <Route path="/doReservation" element={<DoReservation />} />
                 </Routes>
             </div>

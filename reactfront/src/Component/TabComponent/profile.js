@@ -6,10 +6,11 @@ import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 
 import setAuthorizationToken from "../Users/setAuthorizationToken"
-import AdminComponent from "./ProfileComponent/AdminComponent"
+import AdminComponent from "./ProfileComponent/AdminTabComponent/AdminComponent"
 import UserProfile from "./ProfileComponent/UserProfile"
 import { SetTapItemValue } from "../../Slices/SetTapItemSlice"
 import { setTabShow } from "../../Slices/TabShowSlice"
+import { getTokenIsOK } from '../../Slices/ReadTokenSlice';
 
 const Profile = () => {
 
@@ -36,7 +37,8 @@ const Profile = () => {
                         confirmButtonText: '확인'
                     }).then((result) => {
                         dispatch(SetTapItemValue(0))
-                        dispatch(setTabShow(false))
+                        dispatch(getTokenIsOK())
+                        dispatch(setTabShow(true))
                         usenavigate("/")
                     })
                 }

@@ -34,7 +34,7 @@ export const ReadTokenSlice = createSlice({
     name: 'ReadToken',
     initialState: {
         /** 상태값 구조 정의 (자유롭게 구성 가능함) */
-        rt: null,           // HTTP 상태 코드(200,404,500 등)         
+        rt: 401,           // HTTP 상태 코드(200,404,500 등)         
         rtmsg: null,        // 에러메시지         
         data: null,           // Ajax 처리를 통해 수신된 데이터         
         loading: false      // 로딩 여부

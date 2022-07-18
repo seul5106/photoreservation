@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import moment from "moment"
 import axios from 'axios';
+import { Cookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 import { Table } from "react-bootstrap"
 
@@ -10,16 +12,21 @@ import '../assets/css/style3.min.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import RegexHelper from "./Users/regex_helper"
-
+import setAuthorizationToken from './Users/setAuthorizationToken';
+import { SetTapItemValue } from '../Slices/SetTapItemSlice';
+import { getTokenIsOK } from '../Slices/ReadTokenSlice';
+import { setTabShow } from '../Slices/TabShowSlice';
 
 const DoReservation = () => {
     const [value, onChange] = useState(new Date());
     const [date, getDate] = useState();
     const [time, setTime] = useState("09:00:00");
     const [headcount, setHeadcount] = useState();
-
+    const cookies = new Cookies();
     const regexHelper = new RegexHelper();
+    const dispatch = useDispatch();
     const usenavigate = useNavigate();
+    setAuthorizationToken(cookies.get("jwtToken"))
     // 선택한 값이 바뀔때마다 컴포넌트를 재랜더링하고
     // 선택한 value값에 따라 해당하는 날짜의 데이터를 가져온다.
     useEffect(() => {
@@ -28,12 +35,27 @@ const DoReservation = () => {
                 let parseDate = moment(value).format("YYYY-MM-DD")
                 await axios.get("/doReservation/selectreservation" + parseDate).then(response => { getDate(response.data) })
             } catch (error) {
-                // const errorMsg = "[" + error.response.status + "] " + error.response.statusText;
-                console.log(error);
+                if (error.response.status === 419 || error.response.status === 401) {
+                    Swal.fire({
+                        customClass: {
+                            container: 'my-swal'
+                        },
+                        text: error.response.data.rtmsg,
+                        icon: 'error',
+                        confirmButtonText: '확인'
+                    }).then((result) => {
+                        dispatch(SetTapItemValue(0))
+                        dispatch(getTokenIsOK())
+                        dispatch(setTabShow(true))
+                        usenavigate("/")
+                    })
+                }
+                const errorMsg = "[" + error.response.status + "] " + error.response.statusText;
+                console.log(errorMsg);
                 return;
             }
         })()
-    }, [value])
+    }, [dispatch,usenavigate,value])
 
     //예약버튼 클릭 시 
     const compareDate = () => {

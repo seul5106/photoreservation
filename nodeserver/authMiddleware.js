@@ -19,11 +19,11 @@ exports.auth = (req, res, next) => {
         
         // 유효시간이 초과된 경우
         if (error.name === 'TokenExpiredError') {
-            throw new ExiredTokenException("만료된 토큰입니다.")
+            throw new ExiredTokenException("만료된 로그인 토큰입니다. 다시 로그인해주세요")
         }
         // 토큰의 비밀키가 일치하지 않는 경우
         if (error.name === 'JsonWebTokenError') {
-            throw new InvalidTokenException("유효하지않은 토큰입니다.")
+            throw new InvalidTokenException("유효하지않은 로그인 토큰입니다. 다시 로그인해주세요")
         }
     }
 }

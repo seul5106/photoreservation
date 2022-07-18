@@ -60,6 +60,7 @@ const Login = (props) => {
                     },{ withCredentials: true });
                 const token = response.data.token;
                 cookies.set("jwtToken", token)
+                
                 close()
             } catch (e) {
                 Swal.fire({

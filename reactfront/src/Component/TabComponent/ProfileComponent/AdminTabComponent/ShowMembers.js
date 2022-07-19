@@ -1,36 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Table } from 'react-bootstrap';
-import Pagenation from './pagenation';
+import Paging from './pagenation';
 
 const ShowMembers = () => {
     const [data, setData] = useState();
-    const [limit, setLimit] = useState(2);
     const [page, setPage] = useState(1);
-    const offset = (page - 1) * limit;
+    const [count, setCount] = useState();
+    const [itemsCountPerPage, setItemsCountPerPage] = useState();
 
     useEffect(() => {
         (async () => {
             try {
-                await axios.get(process.env.REACT_APP_LOCALHOST + "/admin/list").then((response) => {
+                await axios.get(process.env.REACT_APP_LOCALHOST + "/admin/list",{
+                    params: {
+                        page: page
+                    }
+                }).then((response) => {
                     setData(response)
-
+                    setCount(response.data.pagenation.totalCount)
+                    setItemsCountPerPage(response.data.pagenation.listCount)
                 })
-                console.log(data)
+                
             } catch (error) {
-
                 console.log(error);
                 return;
             }
         })()
-
-
-    }, [])
-
-    const handle = () => {
-        console.log(offset)
-        console.log(data.data.item)
-    }
+    }, [page])
 
     return (
         data !== undefined ?
@@ -50,7 +47,7 @@ const ShowMembers = () => {
                     </thead>
                     <tbody>
                         {data !== undefined && data.data.item.length !== 0 ?
-                            data.data.item.slice(offset, offset + limit).map((item, index) => (
+                            data.data.item.map((item, index) => (
                                 <tr key={index}>
                                     <td>{data.data.item[index].user_name}</td>
                                     <td>{data.data.item[index].user_id}</td>
@@ -64,23 +61,16 @@ const ShowMembers = () => {
                             ))
                             :
                             <tr>
-                                <td colSpan={3}>예약된 날짜가 없습니다.</td>
+                                <td colSpan={8}>잘못된 요청입니다.</td>
                             </tr>}
                     </tbody>
                 </Table>
-                <button onClick={handle}>asd</button>
-                <Pagenation
-                    total={data.data.item.length}
-                    limit={limit}
-                    page={page}
-                    setPage={setPage}
-                />
+
+                <Paging page={page} count={count} setPage={setPage} itemsCountPerPage={itemsCountPerPage}/>
             </>
             :
 
-            <div>
-                123
-            </div>
+            <></>
     );
 };
 

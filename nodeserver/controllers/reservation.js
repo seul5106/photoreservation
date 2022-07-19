@@ -132,5 +132,74 @@ module.exports = (app) => {
     })
 
 
+    //관리자에서 예약조회
+    //전체회원 조회
+    router.get("/admin/reservelist", auth, async (req, res, next) => {
+
+        // 검색어 파라미터 받기 -> 검색어가 없을 경우 전체 목록 조회이므로 유효성 검사 안함
+        const query = req.get("query");
+
+        // 현재 페이지 번호 받기(기본값은 1)
+        const nowPage = req.get("page", 1);
+
+        // 한 페이지에 보여질 목록 수 받기 (기본값은 10, 최소 10, 최대 30)
+        const rows = req.get("rows", 10);
+
+        // 데이터 조회 결과가 저장될 빈 변수
+        let json = null;
+        let pagenation = null;
+
+        
+        if(req.decoded.isAdmin = undefined){
+            throw new BadRequestException("관리자가 아닙니다. 관리자로 로그인해주세요")
+        }
+
+        try {
+            dbcon = await mysql2.createConnection(config.database);
+            await dbcon.connect();
+
+            let sql1 = "SELECT count(*) as cnt FROM members_reserve ";
+
+            let args1 = [];
+
+            if (query != null) {
+                sql1 += "WHERE user_name LIKE concat('%', ?, '%')";
+                args1.push(query);
+            }
+            const [result1] = await dbcon.query(sql1, args1);
+            console.log([result1]);
+            const totalCount = result1[0].cnt;
+
+            //페이지번호 정보 계산
+            pagenation = util.pagenation(totalCount, nowPage, rows);
+            logger.debug(JSON.stringify(pagenation));
+
+            // 데이터 조회
+            let sql2 = "SELECT user_id, reserve_date, reserve_time, reserve_cancel, reserve_headcount, reg_date ";
+            sql2 += "FROM members_reserve ";
+
+            // SQL문에 설정할 치환값
+            let args2 = [];
+
+            if (query != null) {
+                sql2 += "WHERE user_name LIKE concat('%', ?, '%')";
+                args2.push(query);
+            }
+            sql2 += " LIMIT ?, ?";
+            args2.push(pagenation.offset);
+            args2.push(pagenation.listCount);
+            
+            const [result2] = await dbcon.query(sql2, args2);
+
+            // 조회 결과를 미리 준비한 변수에 저장함
+            json = result2;
+        } catch (e) {
+            return next(e);
+        } finally {
+            dbcon.end();
+        }
+        res.sendJson({ pagenation: pagenation, item: json });
+    })
+
     return router;
 }

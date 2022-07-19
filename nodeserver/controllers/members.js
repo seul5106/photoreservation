@@ -121,7 +121,7 @@ module.exports = (app) => {
                 memberId: memberId,
                 isAdmin: "Y"
             }, secret, {
-                expiresIn: '15m', // 만료시간 15분
+                expiresIn: '600m', // 만료시간 15분
                 issuer: '토큰발급자',
             });
             res.sendJson({ code: 200, message: "토큰이 발급되었습니다.", token: token });
@@ -192,7 +192,7 @@ module.exports = (app) => {
         const query = req.get("query");
 
         // 현재 페이지 번호 받기(기본값은 1)
-        const page = req.get("page", 1);
+        const nowPage = req.get("page", 1);
 
         // 한 페이지에 보여질 목록 수 받기 (기본값은 10, 최소 10, 최대 30)
         const rows = req.get("rows", 10);
@@ -223,7 +223,7 @@ module.exports = (app) => {
             const totalCount = result1[0].cnt;
 
             //페이지번호 정보 계산
-            pagenation = util.pagenation(totalCount, page, rows);
+            pagenation = util.pagenation(totalCount, nowPage, rows);
             logger.debug(JSON.stringify(pagenation));
 
             // 데이터 조회
@@ -240,7 +240,7 @@ module.exports = (app) => {
             sql2 += " LIMIT ?, ?";
             args2.push(pagenation.offset);
             args2.push(pagenation.listCount);
-
+            
             const [result2] = await dbcon.query(sql2, args2);
 
             // 조회 결과를 미리 준비한 변수에 저장함

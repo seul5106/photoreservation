@@ -33,7 +33,7 @@ const DoReservation = () => {
         (async () => {
             try {
                 let parseDate = moment(value).format("YYYY-MM-DD")
-                await axios.get("/doReservation/selectreservation" + parseDate).then(response => { getDate(response.data) })
+                await axios.get(process.env.REACT_APP_LOCALHOST +"/doReservation/selectreservation?parseDate=" + parseDate).then(response => { getDate(response.data) })
             } catch (error) {
                 if (error.response.status === 419 || error.response.status === 401) {
                     Swal.fire({

@@ -71,10 +71,10 @@ const Tab = () => {
             <section className="header-center">
                 <div className={ifAbout(setTabItem)}>
                     <ul className="tabs">
-                        <Link to="/" className={`${setTabItem === 0 ? 'active' : ''}`} onClick={() => dispatch(SetTapItemValue(0))}>YSL STUDIO</Link>
-                        <Link to="/About" className={`${setTabItem === 1 ? 'active' : ''}`} onClick={() => dispatch(SetTapItemValue(1))}>Location</Link>
-                        <Link to="/Gallery" className={`${setTabItem === 2 ? 'active' : ''}`} onClick={() => dispatch(SetTapItemValue(2))}>Gallery</Link>
-                        {TAB_SHOW === false ? <Link to="/Profile" className={`${setTabItem === 3 ? 'active' : ''}`} id="profile" onClick={() => dispatch(SetTapItemValue(3))}>Profile</Link> : <></>}
+                        <Link to="/" className={`${window.location.pathname === "/" ? 'active' : ''}`} onClick={() => dispatch(SetTapItemValue(0))}>YSL STUDIO</Link>
+                        <Link to="/About" className={`${window.location.pathname === "/About" ? 'active' : ''}`} onClick={() => dispatch(SetTapItemValue(1))}>Location</Link>
+                        <Link to="/Gallery" className={`${window.location.pathname === "/Gallery" ? 'active' : ''}`} onClick={() => dispatch(SetTapItemValue(2))}>Gallery</Link>
+                        {TAB_SHOW === false ? <Link to="/Profile" className={`${window.location.pathname === "/Profile" ? 'active' : ''}`} id="profile" onClick={() => dispatch(SetTapItemValue(3))}>Profile</Link> : <></>}
                         <LoginModule />
                     </ul>
                 </div>

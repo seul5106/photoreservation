@@ -1,26 +1,60 @@
-.AdminContainer{
+.AdminContainer {
+  padding-top: 100px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1180px;
+  .AdminTabContainer {
+    width: 100%;
+    .AdminTab {
+      font-weight: bold;
+      margin-left: 10px;
+      font-size: 25px;
+      color: rgb(134, 134, 134);
+    }
+    .AdminTabActive {
+      color: rgb(20, 20, 20);
+    }
+  }
+
+  .AdminContentContainer {
+    padding-top: 20px;
+    min-height: 600px;
+  }
+}
+
+@media (max-width: 400px) {
+  .AdminContainer {
     padding-top: 100px;
     margin: 0 auto;
     width: 100%;
     max-width: 1180px;
-    .AdminTabContainer{
-        width: 100%;
-        .AdminTab{
-            font-weight: bold;
-            margin-left: 10px;
-            font-size: 25px;
-            color: rgb(134, 134, 134);
-        }
-        .AdminTabActive{
-            color: rgb(20, 20, 20);
-        }
+    .AdminTabContainer {
+      width: 100%;
+      .AdminTab {
+        font-weight: bold;
+        margin-left: 10px;
+        font-size: 25px;
+        color: rgb(134, 134, 134);
+      }
+      .AdminTabActive {
+        color: rgb(20, 20, 20);
+      }
     }
 
-    .AdminContentContainer{
-        padding-top: 20px;
-        min-height: 600px;
+    .AdminContentContainer {
+      padding-top: 20px;
+      min-height: 600px;
+      .table {
+        
+        tr {
+          td {
+            word-break:break-all;
+            
+          }
+        }
+      }
     }
-    
+  }
 }
 
 .pagination {
@@ -45,11 +79,11 @@ ul.pagination li {
   font-size: 1rem;
 }
 
-ul.pagination li:first-child{
+ul.pagination li:first-child {
   border-radius: 5px 0 0 5px;
 }
 
-ul.pagination li:last-child{
+ul.pagination li:last-child {
   border-radius: 0 5px 5px 0;
 }
 

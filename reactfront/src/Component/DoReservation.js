@@ -83,7 +83,9 @@ const DoReservation = () => {
                         reserve_date: moment(value).format("YYYY-MM-DD"),
                         reserve_time: time,
                         reserve_headcount: headcount
-                    }).then(response => { getDate(response.data) });
+                    }).then(response => { getDate(response.data) 
+                        console.log(response)
+                    });
                 } catch (error) {
                     console.log(error.response)
                     if (error.response.status === 401 || error.response.status === 419) {

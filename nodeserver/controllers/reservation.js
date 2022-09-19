@@ -28,7 +28,7 @@ module.exports = (app) => {
         const reserve_headcount = req.post("reserve_headcount")
 
         let json = null;
-        
+
 
 
         try {
@@ -45,7 +45,7 @@ module.exports = (app) => {
             if (totalCount > 0) {
                 throw new BadRequestException("이미 예약되어있는 시간입니다.");
             }
-
+//
             var regex = /[^0-9]/g;
             var getRegex = reserve_headcount.replace(regex, "");
             logger.warn(reserve_headcount)

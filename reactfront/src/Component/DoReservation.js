@@ -80,7 +80,7 @@ const DoReservation = () => {
             (async () => {
                 try {
                     
-                    await axios.get("/doReservation/reserve?reserve_date="+ moment(value).format("YYYY-MM-DD") + "&reserve_time=" + time + "&reserve_headcount=" + headcount
+                    await axios.get(process.env.REACT_APP_LOCALHOST +"/doReservation/reserve?reserve_date="+ moment(value).format("YYYY-MM-DD") + "&reserve_time=" + time + "&reserve_headcount=" + headcount
                     ).then(response => { getDate(response.data) 
                         console.log(response)
                     });

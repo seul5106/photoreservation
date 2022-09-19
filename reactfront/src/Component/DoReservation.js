@@ -79,11 +79,9 @@ const DoReservation = () => {
         }).then((result) => {
             (async () => {
                 try {
-                    await axios.post("/doReservation/reserve", {
-                        reserve_date: moment(value).format("YYYY-MM-DD"),
-                        reserve_time: time,
-                        reserve_headcount: headcount
-                    }).then(response => { getDate(response.data) 
+                    
+                    await axios.get("/doReservation/reserve?reserve_date="+ moment(value).format("YYYY-MM-DD") + "&reserve_time=" + time + "&reserve_headcount=" + headcount
+                    ).then(response => { getDate(response.data) 
                         console.log(response)
                     });
                 } catch (error) {

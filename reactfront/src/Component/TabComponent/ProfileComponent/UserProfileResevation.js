@@ -42,10 +42,7 @@ const UserProfileResevation = () => {
             if(result.isConfirmed){
                 (async () => {
                     try {
-                        await axios.post("/doReservation/deleteReserve", {
-                            reserve_date: reserve_date,
-                            reserve_time: reserve_time
-                        })
+                        await axios.get("/doReservation/deleteReserve?reserve_date=" + reserve_date + "&reserve_time=" + reserve_time)
                     } catch (error) {
                         const errorMsg = "[" + error.response.status + "] " + error.response.statusText;
                         console.log(errorMsg);

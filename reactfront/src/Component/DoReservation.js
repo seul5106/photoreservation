@@ -75,7 +75,7 @@ const DoReservation = () => {
             title: "다음 날짜로 예약을 \n하시겠습니까?",
             html: "<p>날짜: " + moment(value).format("YYYY-MM-DD") + "</p><p>시간: " + time.substr(0, 5) + " </p><p>인원수: " + headcount + "</p>",
             icon: 'info',
-            confirmButtonText: '확인'
+            confirmButtonText: '확인z'
         }).then((result) => {
             (async () => {
                 try {
